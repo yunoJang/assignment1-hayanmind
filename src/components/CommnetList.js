@@ -6,34 +6,40 @@ function CommnetList() {
     const [comments, setComments] = useState([]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [isViewEnd, setIsViewEnd] = useState(false);
   
+    useEffect(()=> {
+        if (isViewEnd && !isLoading) {
+            setPage(page=> page+1);
+            setIsViewEnd(false);
+        }
+    },[isViewEnd,isLoading])
+
     const onScroll = ()=> {
-      const totalHeight = document.documentElement.scrollHeight;
-      const degree = window.scrollY / (totalHeight - window.innerHeight);
-  
-      if (degree === 1) {
-        setPage(page=> page+1);
-      }
+        const {scrollHeight,clientHeight,scrollTop} = document.documentElement;
+        const degree = scrollTop / (scrollHeight-clientHeight);
+
+        if (degree >= 1) {
+            setIsViewEnd(true);
+        }
     }
-  
+
     useEffect(()=>{
       window.addEventListener('scroll', onScroll, {passive:true});
-    },[])
-  
 
+      return () => window.removeEventListener('scroll', onScroll, {passive:true});
+    },[]);
+  
     const loadComments = async page=> {
+        const requestURL = `https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`;
+        
         setIsLoading(true);
 
         try {
-            const {data : loadedComments} = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`);
-
-            setComments(comments=> {
-                const newComments = Array.from(comments);
-                newComments.push(...loadedComments);
-
-                return newComments;
-            });
+            const {data : loadedComments} = await axios.get(requestURL);
             
+            setComments(comments=> comments.concat(loadedComments));
+
             setIsLoading(false);
         }
         catch(err) {
@@ -41,7 +47,9 @@ function CommnetList() {
         }
     }
 
-    useEffect(()=>{loadComments(page)},[page])
+    useEffect(()=>{
+        loadComments(page)
+    },[page])
 
     const renderComments = ()=> {
         return comments.map(comment=> 
@@ -57,7 +65,6 @@ function CommnetList() {
     return (
         <ul className='commnet-list'>
             {renderComments()}
-            {isLoading ? <div>Loading...</div> : ''}
         </ul>
     )
 }
