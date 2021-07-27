@@ -1,0 +1,16 @@
+@import url(reset.css);
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url(fonts/SF-Pro.ttf);
+}
+
+html {
+    font-family: 'SF Pro', sans-serif;
+}
+
+body {
+    padding: 33px;
+    display: flex;
+    justify-content: center;
+}
