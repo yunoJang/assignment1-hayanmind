@@ -3,13 +3,14 @@ import axios from "axios";
 
 import Comment from './Comment';
 
-function CommnetList() { 
-    const [isLoading, setIsLoading] = useState(true);
+function CommnetList({page}) { 
     const [comments, setComments] = useState([]);
 
-    const loadComments = async ()=> {
+    const loadComments = async page=> {
+        //setIsLoading(true);
+
         try {
-            const {data : loadedComments} = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=10`);
+            const {data : loadedComments} = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`);
 
             setComments(comments=> {
                 const newComments = Array.from(comments);
@@ -17,7 +18,8 @@ function CommnetList() {
 
                 return newComments;
             });
-            setIsLoading(false);    
+            
+            //setIsLoading(false);
         }
         catch(err) {
             console.log(err)
@@ -35,13 +37,12 @@ function CommnetList() {
         )
     }
 
-    useEffect(()=>{loadComments()},[])
+    useEffect(()=>{loadComments(page)},[page])
 
     return (
-            <ul className='commnet-list'>
-              {renderComments()}
-              {isLoading ? <div>Loading...</div> : ''}
-            </ul>
+        <ul className='commnet-list'>
+            {renderComments()}
+        </ul>
     )
 }
 
