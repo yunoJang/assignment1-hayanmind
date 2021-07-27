@@ -13,4 +13,5 @@ npm install
 npm start
 ```
 ### 시연 영상
-<img width="80%" src="(https://user-images.githubusercontent.com/54504352/127201394-1cd61c27-3f52-4cbf-8745-cbc3337cc3d2.gif"/>
+![Assignment1 _ HayanMind - Chrome 2021-07-28 02-30-16](https://user-images.githubusercontent.com/54504352/127201394-1cd61c27-3f52-4cbf-8745-cbc3337cc3d2.gif)
+
