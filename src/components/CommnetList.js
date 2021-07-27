@@ -1,13 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import Comment from './Comment';
 
-function CommnetList({page}) { 
+function CommnetList() { 
     const [comments, setComments] = useState([]);
+    const [page, setPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(true);
+  
+    const onScroll = ()=> {
+      const totalHeight = document.documentElement.scrollHeight;
+      const degree = window.scrollY / (totalHeight - window.innerHeight);
+  
+      if (degree === 1) {
+        setPage(page=> page+1);
+      }
+    }
+  
+    useEffect(()=>{
+      window.addEventListener('scroll', onScroll, {passive:true});
+    },[])
+  
 
     const loadComments = async page=> {
-        //setIsLoading(true);
+        setIsLoading(true);
 
         try {
             const {data : loadedComments} = await axios.get(`https://jsonplaceholder.typicode.com/comments?_page=${page}&_limit=10`);
@@ -19,12 +34,14 @@ function CommnetList({page}) {
                 return newComments;
             });
             
-            //setIsLoading(false);
+            setIsLoading(false);
         }
         catch(err) {
-            console.log(err)
+            console.error(err)
         }
     }
+
+    useEffect(()=>{loadComments(page)},[page])
 
     const renderComments = ()=> {
         return comments.map(comment=> 
@@ -37,11 +54,10 @@ function CommnetList({page}) {
         )
     }
 
-    useEffect(()=>{loadComments(page)},[page])
-
     return (
         <ul className='commnet-list'>
             {renderComments()}
+            {isLoading ? <div>Loading...</div> : ''}
         </ul>
     )
 }
