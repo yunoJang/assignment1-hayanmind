@@ -9,15 +9,15 @@ function CommnetList() {
     const [isViewEnd, setIsViewEnd] = useState(false);
   
     useEffect(()=> {
-        if (isViewEnd && !isLoading) {
+        if (isViewEnd) {
             setPage(page=> page+1);
             setIsViewEnd(false);
         }
-    },[isViewEnd,isLoading])
+    },[isViewEnd])
 
     const onScroll = ()=> {
         const {scrollHeight,clientHeight,scrollTop} = document.documentElement;
-        const degree = scrollTop / (scrollHeight-clientHeight);
+        const degree =( scrollTop + clientHeight )/ scrollHeight;
 
         if (degree >= 1) {
             setIsViewEnd(true);
