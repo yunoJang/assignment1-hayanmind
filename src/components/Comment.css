@@ -35,3 +35,8 @@
     .comment>.content>.title {
         margin-bottom: 2px;
     }
+
+.loading {
+    text-align: center;
+    height: 200px;
+}
