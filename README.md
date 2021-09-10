@@ -1,7 +1,8 @@
 ## preonboarding-assignment1-hayanmind
 
 ### 소개
-반복적으로 리스트를 10개 씩 받아 목록을 구현하고 무한스크롤로 목록 추가
+* 반복적으로 리스트를 10개 씩 받아 목록을 구현하고 무한스크롤로 목록 추가
+* [배포 링크] (https://pensive-beaver-e84874.netlify.app/)
 
 ### 구현 목록
 * 무한 스크롤로 Comment 10개씩 반복 로딩
